@@ -11,9 +11,13 @@ class ChurnApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Churn Prediction',
-      theme: ThemeData(primarySwatch: Colors.indigo),
+      title: 'Fuyu - Churn Prediction',
+      theme: ThemeData(
+        primarySwatch: Colors.indigo,
+        visualDensity: VisualDensity.adaptivePlatformDensity,
+      ),
       home: const PredictionScreen(),
+      debugShowCheckedModeBanner: false,
     );
   }
 }
@@ -48,40 +52,87 @@ class _PredictionScreenState extends State<PredictionScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Churn Prediction")),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
+      appBar: AppBar(
+        title: Row(
           children: [
-            ElevatedButton(
-              onPressed: _predictCsv,
-              child: const Text("Subir CSV y predecir"),
+            Image.asset("assets/fuyu_logo.png", height: 30), // logo en assets
+            const SizedBox(width: 10),
+            const Text("Fuyu - Churn Prediction"),
+          ],
+        ),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(20.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text(
+              "📌 Predicción de Fuga de Clientes",
+              style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 8),
+            const Text(
+              "Este proyecto predice la probabilidad de que un cliente abandone "
+              "un servicio de telecomunicaciones, utilizando Machine Learning. "
+              "Sube un archivo CSV para obtener predicciones por lote.",
+              style: TextStyle(fontSize: 15, color: Colors.black87),
             ),
             const SizedBox(height: 20),
+
+            Center(
+              child: ElevatedButton.icon(
+                onPressed: _predictCsv,
+                icon: const Icon(Icons.upload_file),
+                label: const Text("Subir CSV y predecir"),
+                style: ElevatedButton.styleFrom(
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 12.0,
+                    horizontal: 20.0,
+                  ),
+                ),
+              ),
+            ),
+            const SizedBox(height: 20),
+
             if (errorMessage.isNotEmpty)
-              Text(errorMessage, style: const TextStyle(color: Colors.red)),
+              Text(
+                errorMessage,
+                style: const TextStyle(color: Colors.red, fontSize: 16),
+              ),
+
             if (predictions != null)
               Expanded(
                 child: ListView.builder(
                   itemCount: predictions!.length,
                   itemBuilder: (context, index) {
                     final item = predictions![index];
+                    final isChurn = item["prediction"] == 1;
+
                     return Card(
-                      margin: const EdgeInsets.symmetric(vertical: 4),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      elevation: 3,
+                      margin: const EdgeInsets.symmetric(vertical: 6),
                       child: ListTile(
-                        leading: Text("#${item["index"]}"),
+                        leading: Icon(
+                          isChurn ? Icons.warning_amber : Icons.check_circle,
+                          color: isChurn ? Colors.red : Colors.green,
+                          size: 32,
+                        ),
                         title: Text(
-                          "Predicción: ${item["prediction"] == 1 ? "Churn" : "No Churn"}",
+                          isChurn
+                              ? "Cliente en riesgo de Churn"
+                              : "Cliente estable",
                           style: TextStyle(
-                            color: item["prediction"] == 1
-                                ? Colors.red
-                                : Colors.green,
+                            color: isChurn ? Colors.red : Colors.green,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
                         subtitle: Text(
                           "Probabilidad: ${(item["probability"] * 100).toStringAsFixed(2)}%",
                         ),
+                        trailing: Text("#${item["index"]}"),
                       ),
                     );
                   },
