@@ -1,0 +1,5 @@
+Django>=5.0
+djangorestframework
+pandas
+scikit-learn
+joblib

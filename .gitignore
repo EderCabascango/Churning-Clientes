@@ -1,0 +1,50 @@
+# ======================
+# Python / Django
+# ======================
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.db
+*.sqlite3
+db.sqlite3
+*.log
+*.pot
+*.py[cod]
+venv/
+.env
+*.env
+.env.*
+
+# Migraciones de Django
+*/migrations/__pycache__/
+*/migrations/*.py
+!*/migrations/__init__.py
+
+# ======================
+# Flutter / Dart
+# ======================
+.dart_tool/
+.packages
+.buildlog/
+.flutter-plugins
+.flutter-plugins-dependencies
+pubspec.lock
+
+# Build outputs
+/build/
+android/
+ios/
+macos/
+windows/
+linux/
+
+# Web
+/web/.dart_tool/
+web/.idea/
+
+# ======================
+# Archivos del sistema
+# ======================
+.DS_Store
+Thumbs.db
