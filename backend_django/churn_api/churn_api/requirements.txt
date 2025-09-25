@@ -1,0 +1,19 @@
+# Core
+pandas==2.2.3
+numpy==2.1.2
+scikit-learn==1.5.2
+imblearn==0.0
+joblib==1.4.2
+
+# Visualización (opcional, solo si usas notebooks para EDA)
+matplotlib==3.9.2
+seaborn==0.13.2
+
+# Backend
+Django==5.1.2
+djangorestframework==3.15.2
+
+# Opcional (para desplegar en la nube tipo Render/Heroku)
+gunicorn==23.0.0
+whitenoise==6.7.0
+psycopg2-binary==2.9.9  # si usas PostgreSQL
